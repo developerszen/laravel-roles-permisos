@@ -9,8 +9,11 @@
 
                     <div class="card-body">
 
+                        @include('partials.errors')
+
                         <form action="{{ route('posts.update', $post) }}" method="post">
                             @csrf
+                            @method('put')
 
                             <div class="form-group row">
                                 <label for="title" class="col-form-label-sm col-2">Título</label>

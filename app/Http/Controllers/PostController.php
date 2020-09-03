@@ -14,7 +14,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::latest()->with('author')->paginate(8);
+
+        return view('post.index', compact('posts'));
     }
 
     /**
@@ -35,7 +37,18 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string',
+            'content' => 'required|string',
+        ]);
+
+        Post::create([
+            'user_id' => auth()->user()->id,
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+        ]);
+
+        return redirect()->to('home');
     }
 
     /**
@@ -68,9 +81,19 @@ class PostController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $request->validate([
+            'title' => 'required|string',
+            'content' => 'required|string',
+        ]);
+
+        $post->update([
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+        ]);
+
+        return redirect()->to('home');
     }
 
     /**
@@ -79,8 +102,10 @@ class PostController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        return redirect()->to('home');
     }
 }

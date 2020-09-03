@@ -17,7 +17,11 @@ class UserSeeder extends Seeder
             'email' => 'admin@zen-tech.com',
         ]);
 
-        $user_writer = factory(User::class, 1)->create();
-        $user_editor = factory(User::class, 1)->create();
+        $user_writer = factory(User::class, 1)->create([
+            'email' => 'writer@zen-tech.com',
+        ]);
+        $user_editor = factory(User::class, 1)->create([
+            'email' => 'editor@zen-tech.com',
+        ]);
     }
 }

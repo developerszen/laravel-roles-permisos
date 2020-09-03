@@ -9,6 +9,8 @@
 
                     <div class="card-body">
 
+                        @include('partials.errors')
+
                         <form action="{{ route('posts.store') }}" method="post">
                             @csrf
 

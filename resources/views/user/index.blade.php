@@ -14,7 +14,8 @@
                             </div>
                         @endif
 
-                        <a href="{{ route('posts.create') }}" class="btn btn-success btn-sm mb-3">
+                        <a href="{{ route('users.create') }}" class="btn btn-warning btn-sm mb-3">
+                            <img src="/icons/clipboard-plus.svg">
                             Registrar
                         </a>
 
@@ -23,44 +24,37 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Estado</th>
-                                <th>Título</th>
-                                <th>Autor</th>
+                                <th>Información</th>
+                                <th>Roles</th>
                                 <th>Acciones</th>
                             </tr>
                             </thead>
 
                             <tbody>
-                            @foreach($posts as $post)
+                            @foreach($users as $user)
                                 <tr>
-                                    <td>{{ $post->id }}</td>
+                                    <td>{{ $user->id }}</td>
                                     <td>
-                                        <span class="badge badge-{{ $post->published ? 'success' :  'primary' }}">
-                                                {{ $post->published ? 'Publicado' :  'No publicado' }}
+                                        <span class="badge badge-{{ $user->enabled ? 'primary' :  'secondary' }}">
+                                                {{ $user->enabled ? 'Habilitado' :  'Inhabilitado' }}
                                         </span>
                                     </td>
-                                    <td><strong>{{ $post->title }}</strong></td>
-                                    <td>{{ $post->author->name }}</td>
                                     <td>
-                                        <a href="{{ route('posts.show', $post) }}"
+                                        <strong>{{ $user->name }}</strong>
+                                        <p class="mb-0">{{ $user->email }}</p>
+                                    </td>
+                                    <td><span class="badge badge-light">Rol de usuario</span></td>
+                                    <td>
+                                        <a href="{{ route('users.edit', $user) }}"
                                            class="btn btn-sm">
-                                            <img src="/icons/eye.svg">
-
-                                        </a>
-                                        <a href="{{ route('posts.edit', $post) }}" class="btn btn-sm">
                                             <img src="/icons/pencil-square.svg">
                                         </a>
-
-                                        <form action="" style="display: inline-block;">
-                                            <button type="submit" class="btn btn-sm">
-                                                <img src="/icons/trash.svg">
-                                            </button>
-                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
-                        {{ $posts->links() }}
+                        {{ $users->links() }}
                     </div>
                 </div>
             </div>
