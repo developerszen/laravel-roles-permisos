@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Post;
 use Illuminate\Http\Request;
 
@@ -59,7 +60,13 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        $post->load('author');
+        $post->load([
+            'author',
+            'comments' => function ($query) {
+                $query->orderBy('salient', 'desc')->orderBy('created_at', 'desc');
+            },
+            'comments.user'
+        ]);
         return view('post.show', compact('post'));
     }
 
@@ -107,5 +114,34 @@ class PostController extends Controller
         $post->delete();
 
         return redirect()->to('home');
+    }
+
+    public function comment(Request $request, Post $post)
+    {
+        $request->validate([
+            'comment' => 'required|string',
+        ]);
+
+        Comment::create([
+            'user_id' => auth()->user()->id,
+            'post_id' => $post->id,
+            'content' => $request->input('comment'),
+        ]);
+
+        return redirect()->route('posts.show', $post);
+    }
+
+    function salientComment(Post $post, Comment $comment)
+    {
+
+        Comment::where('salient', true)->update([
+            'salient' => false,
+        ]);
+
+        $comment->update([
+            'salient' => true,
+        ]);
+
+        return redirect()->route('posts.show', $post);
     }
 }

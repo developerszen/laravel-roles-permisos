@@ -20,5 +20,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'PostController@index')->name('home');
-Route::resource('posts', 'PostController', ['except' => ['index']]);
+
 Route::resource('users', 'UserController');
+
+Route::post('posts/{post}/comments', 'PostController@comment')->name('posts.comments.store');
+Route::post('posts/{post}/comments/{comment}', 'PostController@salientComment')->name('posts.comments.salient');
+
+Route::resource('posts', 'PostController', ['except' => ['index']]);
+
+
+

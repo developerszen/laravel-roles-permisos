@@ -47,7 +47,7 @@
                                     <td>
                                         <a href="{{ route('users.edit', $user) }}"
                                            class="btn btn-sm">
-                                            <img src="/icons/pencil-square.svg">
+                                            <img src="/icons/toggles.svg">
                                         </a>
                                     </td>
                                 </tr>
