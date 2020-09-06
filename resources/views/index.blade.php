@@ -27,7 +27,7 @@
                                                 {{ substr($post->content, 0, 150) }}[...]
                                             </p>
                                             <a href="{{ route('posts.show', $post) }}" class="btn btn-primary btn-sm">
-                                                Ver más
+                                                Leer más
                                             </a>
                                         </div>
                                     </div>

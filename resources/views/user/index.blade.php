@@ -27,6 +27,7 @@
                                 <th>Información</th>
                                 <th>Email</th>
                                 <th>Roles</th>
+                                <th>Fecha de registro</th>
                                 <th>Acciones</th>
                             </tr>
                             </thead>
@@ -45,10 +46,11 @@
                                     </td>
                                     <td>{{ $user->email }}</td>
                                     <td><span class="badge badge-light">Rol de usuario</span></td>
+                                    <td>{{ $user->created_at }}</td>
                                     <td>
                                         <a href="{{ route('users.edit', $user) }}"
                                            class="btn btn-sm">
-                                            <img src="/icons/toggle-on.svg">
+                                            <img src="/icons/toggle-off.svg">
                                         </a>
                                     </td>
                                 </tr>
