@@ -25,6 +25,7 @@
                                 <th>ID</th>
                                 <th>Estado</th>
                                 <th>Información</th>
+                                <th>Email</th>
                                 <th>Roles</th>
                                 <th>Acciones</th>
                             </tr>
@@ -41,13 +42,13 @@
                                     </td>
                                     <td>
                                         <strong>{{ $user->name }}</strong>
-                                        <p class="mb-0">{{ $user->email }}</p>
                                     </td>
+                                    <td>{{ $user->email }}</td>
                                     <td><span class="badge badge-light">Rol de usuario</span></td>
                                     <td>
                                         <a href="{{ route('users.edit', $user) }}"
                                            class="btn btn-sm">
-                                            <img src="/icons/toggles.svg">
+                                            <img src="/icons/toggle-on.svg">
                                         </a>
                                     </td>
                                 </tr>

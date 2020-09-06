@@ -14,6 +14,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $posts = Post::latest()->with('author')->where('published', true)->paginate(9);
 
+        return view('index', compact('posts'));
     }
 }

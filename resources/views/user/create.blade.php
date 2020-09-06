@@ -11,16 +11,16 @@
 
                         @include('partials.errors')
 
-                        <form action="{{ route('posts.store') }}" method="post">
+                        <form action="{{ route('users.store') }}" method="post">
                             @csrf
 
                             <div class="row">
                                 <div class="col-5">
                                     <div class="form-group row">
-                                        <label for="nombre" class="col-form-label-sm col-3">Nombre</label>
+                                        <label for="name" class="col-form-label-sm col-3">Nombre</label>
 
                                         <div class="col-9">
-                                            <input id="nombre" type="text" name="title"
+                                            <input id="name" type="text" name="name"
                                                    placeholder="Nombre del usuario"
                                                    class="form-control form-control-sm">
                                         </div>

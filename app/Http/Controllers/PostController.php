@@ -144,4 +144,22 @@ class PostController extends Controller
 
         return redirect()->route('posts.show', $post);
     }
+
+    function published(Post $post)
+    {
+        $post->update([
+            'published' => true,
+        ]);
+
+        return redirect()->route('posts.show', $post);
+    }
+
+    function unpublished(Post $post)
+    {
+        $post->update([
+            'published' => false,
+        ]);
+
+        return redirect()->route('posts.show', $post);
+    }
 }

@@ -13,20 +13,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', 'HomeController@index');
 
 Auth::routes();
 
-Route::get('/home', 'PostController@index')->name('home');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', 'PostController@index')->name('home');
 
-Route::resource('users', 'UserController');
+    Route::resource('users', 'UserController');
 
-Route::post('posts/{post}/comments', 'PostController@comment')->name('posts.comments.store');
-Route::post('posts/{post}/comments/{comment}', 'PostController@salientComment')->name('posts.comments.salient');
+    Route::post('posts/{post}/published', 'PostController@published')->name('posts.published');
+    Route::post('posts/{post}/unpublished', 'PostController@unpublished')->name('posts.unpublished');
+    Route::post('posts/{post}/comments', 'PostController@comment')->name('posts.comments.store');
+    Route::post('posts/{post}/comments/{comment}', 'PostController@salientComment')->name('posts.comments.salient');
 
-Route::resource('posts', 'PostController', ['except' => ['index']]);
+    Route::resource('posts', 'PostController', ['except' => ['index', 'show']]);
+});
+
+Route::get('posts/{post}', 'PostController@show')->name('posts.show');
 
 
 

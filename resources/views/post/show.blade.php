@@ -9,6 +9,24 @@
                     <div class="card-header"><strong>{{ __('Detalle de post') }}</strong></div>
 
                     <div class="card-body">
+                        @if($post->published)
+                            {{--Unpublished--}}
+                            <form action="{{ route('posts.unpublished', $post) }}" method="post">
+                                @csrf
+                                <button type="submit" class="btn btn-primary btn-sm mb-3">
+                                    Cancelar publicación
+                                </button>
+                            </form>
+                        @else
+                            {{--Published--}}
+                            <form action="{{ route('posts.published', $post) }}" method="post">
+                                @csrf
+                                <button type="submit" class="btn btn-success btn-sm mb-3">
+                                    Publicar
+                                </button>
+                            </form>
+                        @endif
+
                         <h3 class="mb-0">{{ $post->title }}</h3>
 
                         <div class="small text-secondary">Fecha de creación: {{ $post->created_at }}</div>
@@ -31,7 +49,7 @@
 
                         @foreach($post->comments as $comment)
                             <div class="card small">
-                                <div class="card-body py-2 {{ $comment->salient ? 'text-white bg-primary' : '' }}">
+                                <div class="card-body py-2 {{ $comment->salient ? 'bg-warning' : '' }}">
                                     <div class="card-text">
                                         <h6 class="mb-0">
                                             @if($comment->salient)
@@ -41,7 +59,8 @@
 
                                             {{--Salient--}}
                                             @if(!$comment->salient)
-                                                <form action="{{ route('posts.comments.salient', [$post, $comment]) }}" method="post" style="display: inline-block;">
+                                                <form action="{{ route('posts.comments.salient', [$post, $comment]) }}"
+                                                      method="post" style="display: inline-block;">
                                                     @csrf
                                                     <button type="submit" class="btn btn-sm">
                                                         <img src="/icons/award.svg">
@@ -70,15 +89,15 @@
                     {{-- Form --}}
                     <div class="card-body">
                         @guest
-                            <div class="alert alert-info">
-                                <h4 class="alert-heading">Inicia sesión</h4>
-                                Debes iniciar sesión de usuario para poder comentar el post.
-                                <div class="text-center">
-                                    <a href="{{ route('login') }}" class="btn btn-primary btn-sm my-2">
-                                        Iniciar sesión
-                                    </a>
-                                </div>
+                        <div class="alert alert-info">
+                            <h4 class="alert-heading">Inicia sesión</h4>
+                            Debes iniciar sesión de usuario para poder comentar el post.
+                            <div class="text-center">
+                                <a href="{{ route('login') }}" class="btn btn-primary btn-sm my-2">
+                                    Iniciar sesión
+                                </a>
                             </div>
+                        </div>
                         @else
                             @include('partials.errors')
 
@@ -99,13 +118,13 @@
                                     <button type="submit" class="btn btn-primary btn-sm">Enviar</button>
                                 </div>
                             </form>
-                        @endguest
+                            @endguest
                     </div>
                 </div>
 
                 {{--Actions--}}
                 <div class="text-center mt-3">
-                    <a href="{{ route('home') }}" class="btn btn-light btn-sm">Volver</a>
+                    <a href="{{ url()->previous() }}" class="btn btn-light btn-sm">Volver</a>
                 </div>
             </div>
         </div>
