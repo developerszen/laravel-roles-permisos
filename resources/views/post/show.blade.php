@@ -11,7 +11,7 @@
                     <div class="card-body">
                         @if($post->published)
                             {{--Unpublished--}}
-                            <form action="{{ route('posts.unpublished', $post) }}" method="post">
+                            <form action="{{ route('posts.unpublish', $post) }}" method="post">
                                 @csrf
                                 <button type="submit" class="btn btn-primary btn-sm mb-3">
                                     Cancelar publicación
@@ -19,7 +19,7 @@
                             </form>
                         @else
                             {{--Published--}}
-                            <form action="{{ route('posts.published', $post) }}" method="post">
+                            <form action="{{ route('posts.publish', $post) }}" method="post">
                                 @csrf
                                 <button type="submit" class="btn btn-success btn-sm mb-3">
                                     Publicar

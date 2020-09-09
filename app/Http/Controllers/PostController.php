@@ -145,7 +145,7 @@ class PostController extends Controller
         return redirect()->route('posts.show', $post);
     }
 
-    function published(Post $post)
+    function publish(Post $post)
     {
         $post->update([
             'published' => true,
@@ -154,7 +154,7 @@ class PostController extends Controller
         return redirect()->route('posts.show', $post);
     }
 
-    function unpublished(Post $post)
+    function unpublish(Post $post)
     {
         $post->update([
             'published' => false,

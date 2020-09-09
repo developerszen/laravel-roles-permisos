@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header"><strong>{{ __('Posts') }}</strong></div>
+                    <div class="card-header"><strong>{{ __('Usuarios') }}</strong></div>
 
                     <div class="card-body">
                         @if (session('status'))
@@ -50,7 +50,7 @@
                                     <td>
                                         <a href="{{ route('users.edit', $user) }}"
                                            class="btn btn-sm">
-                                            <img src="/icons/toggle-off.svg">
+                                            <img src="/icons/pencil-square.svg">
                                         </a>
                                     </td>
                                 </tr>

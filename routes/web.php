@@ -22,8 +22,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('users', 'UserController');
 
-    Route::post('posts/{post}/published', 'PostController@published')->name('posts.published');
-    Route::post('posts/{post}/unpublished', 'PostController@unpublished')->name('posts.unpublished');
+    Route::post('posts/{post}/publish', 'PostController@publish')->name('posts.publish');
+    Route::post('posts/{post}/unpublish', 'PostController@unpublish')->name('posts.unpublish');
     Route::post('posts/{post}/comments', 'PostController@comment')->name('posts.comments.store');
     Route::post('posts/{post}/comments/{comment}', 'PostController@salientComment')->name('posts.comments.salient');
 

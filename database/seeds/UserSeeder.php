@@ -22,8 +22,15 @@ class UserSeeder extends Seeder
             'email' => 'writer@zen-tech.com',
             'enabled' => true,
         ]);
+
         $user_editor = factory(User::class, 1)->create([
             'email' => 'editor@zen-tech.com',
+            'enabled' => true,
+        ]);
+
+        $user_super_admin = factory(User::class, 1)->create([
+            'name' => 'Super Admin Zen',
+            'email' => 'super.admin@zen-tech.com',
             'enabled' => true,
         ]);
 
