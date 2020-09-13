@@ -10,6 +10,11 @@
                     <div class="card-body">
                         <h3 class="mb-0">{{ $user->name }}</h3>
 
+                        <div>
+                            <img src="/icons/gear.svg">
+                            <strong>{{ ucfirst('Rol de usuario') }}</strong>
+                        </div>
+
                         <div class="small text-secondary">Fecha de registro: {{ $user->created_at }}</div>
                         <div class="small">Correo electrónico: {{ $user->email }}</div>
                         <span class="badge badge-{{ $user->enabled ? 'primary' :  'secondary' }}">
@@ -39,8 +44,11 @@
                             <div class="card my-3">
                                 <div class="card-body py-2">
                                     <h6 class="card-title text-primary mb-0">
-                                        <strong>Permisos adicionales</strong>
+                                        <strong>Permisos de edición</strong>
                                     </h6>
+
+
+
                                 </div>
                             </div>
 
