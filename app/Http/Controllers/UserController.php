@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
@@ -14,7 +15,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::latest()->paginate(8);
+        if(auth()->user()->hasAnyRole(['editor', 'writer'])) {
+            abort(403);
+        }
+
+        $users = User::with('roles')->latest()->paginate(8);
 
         return view('user.index', compact('users'));
     }
@@ -26,6 +31,8 @@ class UserController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', new User);
+
         return view('user.create');
     }
 
@@ -37,6 +44,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', new User);
+
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
@@ -59,6 +68,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $this->authorize('edit', $user);
+
         return view('user.edit', compact('user'));
     }
 
@@ -71,11 +82,35 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $this->authorize('edit', $user);
+
         $user->update([
             'enabled' => $request->has('enabled') ? true : false,
         ]);
 
+        if(auth()->user()->hasRole('super-admin')) {
+            if($request->has('all_edit')) {
+                $permissions = ['posts.edit.*'];
+
+                $this->createEditPermissions($permissions);
+
+                $user->syncPermissions($permissions);
+            }
+        }
+
         return redirect()->route('users.index');
+    }
+
+    private function createEditPermissions($permissions) {
+        collect($permissions)->each(function($permission) {
+            $exists = Permission::where('name', $permission)->exists();
+
+            if(!$exists) {
+                Permission::create([
+                    'name' => $permission,
+                ]);
+            }
+        });
     }
 
 }

@@ -27,7 +27,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('posts/{post}/comments', 'PostController@comment')->name('posts.comments.store');
     Route::post('posts/{post}/comments/{comment}', 'PostController@salientComment')->name('posts.comments.salient');
 
-    Route::resource('posts', 'PostController', ['except' => ['index', 'show']]);
+    Route::middleware(['permission:write post'])->group(function() {
+
+        Route::post('posts', 'PostController@store')->name('posts.store');
+        Route::get('posts/create', 'PostController@create')->name('posts.create');
+
+    });
+
+    Route::resource('posts', 'PostController', ['except' => ['index', 'show', 'create', 'store']]);
 });
 
 Route::get('posts/{post}', 'PostController@show')->name('posts.show');

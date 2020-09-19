@@ -54,14 +54,18 @@
                                     Posts
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="{{ route('users.index') }}">
-                                    Usuarios
-                                </a>
-                            </li>
+                            @hasrole('admin|super-admin')
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" href="{{ route('users.index') }}">
+                                        Usuarios
+                                    </a>
+                                </li>
+                            @endhasrole
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <strong>Rol de usuario</strong>
+                                    <strong>
+                                        {{ ucfirst(auth()->user()->roles[0]->name)  }}
+                                    </strong>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

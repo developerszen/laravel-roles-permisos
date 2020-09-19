@@ -26,7 +26,10 @@
                                     <th>ID</th>
                                     <th>Estado</th>
                                     <th>Post</th>
-                                    <th>Autor</th>
+                                    @unlessrole('writer')
+                                        <th>Autor</th>
+                                    @endunlessrole
+
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
@@ -45,25 +48,33 @@
 
                                             <p class="mb-0">{{ substr($post->content, 0, 60) }}[...]</p>
                                         </td>
-                                        <td>{{ $post->author->name }}</td>
+                                        @unlessrole('writer')
+                                            <td>{{ $post->author->name }}</td>
+                                        @endunlessrole
+
                                         <td>
                                             <a href="{{ route('posts.show', $post) }}"
                                                class="btn btn-sm px-1">
                                                 <img src="/icons/eye.svg">
 
                                             </a>
-                                            <a href="{{ route('posts.edit', $post) }}" class="btn btn-sm px-1">
-                                                <img src="/icons/pencil-square.svg">
-                                            </a>
 
-                                            <form action="{{ route('posts.destroy', $post) }}"
-                                                  style="display: inline-block;" method="post">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="submit" class="btn btn-sm px-1">
-                                                    <img src="/icons/trash.svg">
-                                                </button>
-                                            </form>
+                                            @if(auth()->user()->can('edit', $post))
+                                                <a href="{{ route('posts.edit', $post) }}" class="btn btn-sm px-1">
+                                                    <img src="/icons/pencil-square.svg">
+                                                </a>
+                                            @endif
+
+                                            @can('can delete post')
+                                                <form action="{{ route('posts.destroy', $post) }}"
+                                                      style="display: inline-block;" method="post">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit" class="btn btn-sm px-1">
+                                                        <img src="/icons/trash.svg">
+                                                    </button>
+                                                </form>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

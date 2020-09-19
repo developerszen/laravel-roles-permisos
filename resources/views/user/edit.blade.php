@@ -12,7 +12,7 @@
 
                         <div>
                             <img src="/icons/gear.svg">
-                            <strong>{{ ucfirst('Rol de usuario') }}</strong>
+                            <strong>{{ ucfirst($user->getRoleNames()[0]) }}</strong>
                         </div>
 
                         <div class="small text-secondary">Fecha de registro: {{ $user->created_at }}</div>
@@ -41,16 +41,21 @@
                             </div>
 
                             {{--Permissions--}}
-                            <div class="card my-3">
-                                <div class="card-body py-2">
-                                    <h6 class="card-title text-primary mb-0">
-                                        <strong>Permisos de edición</strong>
-                                    </h6>
+                            @if(auth()->user()->hasRole('super-admin') && $user->hasRole('editor'))
+                                <div class="card my-3">
+                                    <div class="card-body py-2">
+                                        <h6 class="card-title text-primary mb-0">
+                                            <strong>Permisos de edición</strong>
+                                        </h6>
 
+                                        <div class="form-group form-check mb-0">
+                                            <input id="all_edit" type="checkbox" name="all_edit" class="form-check-input">
+                                            <label for="all_edit" class="form-check-label">Editar todo</label>
+                                        </div>
 
-
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
 
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary btn-sm">Actualizar</button>

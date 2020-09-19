@@ -15,7 +15,14 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::latest()->with('author')->paginate(8);
+        $user = auth()->user();
+
+        $posts = Post::latest()
+            ->with('author')
+            ->when($user->hasRole('writer'), function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->paginate(8);
 
         return view('post.index', compact('posts'));
     }
@@ -60,6 +67,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        $this->authorize('show', $post);
+
         $post->load([
             'author',
             'comments' => function ($query) {
@@ -78,6 +87,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $this->authorize('edit', $post);
+
         return view('post.edit', compact('post'));
     }
 
@@ -90,6 +101,8 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        $this->authorize('update', $post);
+
         $request->validate([
             'title' => 'required|string',
             'content' => 'required|string',
@@ -111,6 +124,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('destroy', $post);
+
         $post->delete();
 
         return redirect()->to('home');
@@ -133,6 +148,7 @@ class PostController extends Controller
 
     function salientComment(Post $post, Comment $comment)
     {
+        $this->authorize('salient', $post);
 
         Comment::where('salient', true)->update([
             'salient' => false,
@@ -147,6 +163,8 @@ class PostController extends Controller
 
     function publish(Post $post)
     {
+        $this->authorize('publish', $post);
+
         $post->update([
             'published' => true,
         ]);
@@ -156,6 +174,8 @@ class PostController extends Controller
 
     function unpublish(Post $post)
     {
+        $this->authorize('unpublish', $post);
+
         $post->update([
             'published' => false,
         ]);

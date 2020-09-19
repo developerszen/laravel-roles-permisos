@@ -11,20 +11,24 @@
                     <div class="card-body">
                         @if($post->published)
                             {{--Unpublished--}}
-                            <form action="{{ route('posts.unpublish', $post) }}" method="post">
-                                @csrf
-                                <button type="submit" class="btn btn-primary btn-sm mb-3">
-                                    Cancelar publicación
-                                </button>
-                            </form>
+                            @can('publish post')
+                                <form action="{{ route('posts.unpublish', $post) }}" method="post">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary btn-sm mb-3">
+                                        Cancelar publicación
+                                    </button>
+                                </form>
+                            @endcan
                         @else
                             {{--Published--}}
-                            <form action="{{ route('posts.publish', $post) }}" method="post">
-                                @csrf
-                                <button type="submit" class="btn btn-success btn-sm mb-3">
-                                    Publicar
-                                </button>
-                            </form>
+                            @can('unpublish post')
+                                <form action="{{ route('posts.publish', $post) }}" method="post">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success btn-sm mb-3">
+                                        Publicar
+                                    </button>
+                                </form>
+                            @endcan
                         @endif
 
                         <h3 class="mb-0">{{ $post->title }}</h3>
@@ -59,6 +63,7 @@
 
                                             {{--Salient--}}
                                             @if(!$comment->salient)
+                                                @can('salient', $post)
                                                 <form action="{{ route('posts.comments.salient', [$post, $comment]) }}"
                                                       method="post" style="display: inline-block;">
                                                     @csrf
@@ -66,6 +71,7 @@
                                                         <img src="/icons/award.svg">
                                                     </button>
                                                 </form>
+                                                @endcan
                                             @endif
                                         </h6>
 

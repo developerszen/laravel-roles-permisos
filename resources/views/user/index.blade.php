@@ -45,7 +45,10 @@
                                         <strong>{{ $user->name }}</strong>
                                     </td>
                                     <td>{{ $user->email }}</td>
-                                    <td><span class="badge badge-light">Rol de usuario</span></td>
+                                    <td><span class="badge badge-light">
+                                            {{ ucfirst($user->roles[0]->name) }}
+                                        </span>
+                                    </td>
                                     <td>{{ $user->created_at }}</td>
                                     <td>
                                         <a href="{{ route('users.edit', $user) }}"
